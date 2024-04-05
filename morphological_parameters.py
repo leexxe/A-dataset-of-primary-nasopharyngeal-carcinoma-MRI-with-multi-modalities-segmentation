@@ -14,7 +14,7 @@ class MRIAnalyzer:
         """
         pass
 
-    def load_nifti_image(self, patient_id: int, roi_idx: int) -> nib.Nifti1Image:
+    def load_nifti_image(self, patient_id: int, roi_sequence: str) -> nib.Nifti1Image:
         """
         Loads a NIfTI image for a given patient ID and ROI index.
 
@@ -22,16 +22,15 @@ class MRIAnalyzer:
         ----------
         patient_id : int
             The ID of the patient.
-        roi_idx : int
-            The index of the Region of Interest (ROI).
+        oi_sequence : str
+            The roi_sequence of the Region of Interest (ROI).
 
         Returns
         -------
         nib.Nifti1Image
             The loaded NIfTI image.
         """
-        roi_names = ["ROI-T1.nii", "ROI-T2.nii", "ROI-CE-T1.nii"]
-        path = Path(f"data/MRI-Segments/{patient_id:03d}/{roi_names[roi_idx]}")
+        path = Path(f"data/MRI-Segments/{patient_id:03d}/{roi_sequence}.nii")
         return nib.load(path)
 
     def create_binary_mask(self, image_data: np.ndarray) -> Tuple[np.ndarray, float]:
@@ -338,7 +337,7 @@ class MRIAnalyzer:
 
         return surface_regularity
 
-    def compute_3d_values(self, patient_id: int, roi_idx: int) -> None:
+    def compute_3d_values(self, patient_id: int, roi_sequence: str) -> None:
         """
         Computes and prints 3D values (volume, surface area, maximum diameter, surface regularity)
         for a given patient's ROI.
@@ -347,10 +346,10 @@ class MRIAnalyzer:
         ----------
         patient_id : int
             The ID of the patient.
-        roi_idx : int
-            The index of the Region of Interest (ROI).
+        roi_sequence : str
+            The sequence of the Region of Interest (ROI).
         """
-        nifti_image = self.load_nifti_image(patient_id, roi_idx)
+        nifti_image = self.load_nifti_image(patient_id, roi_sequence)
         image_data = nifti_image.get_fdata()
         binary_mask, threshold_value = self.create_binary_mask(image_data)
         vtk_image = self.vtk_image_from_mask(binary_mask, nifti_image)
@@ -381,16 +380,21 @@ class MRIAnalyzer:
 
 def main():
     parser = argparse.ArgumentParser(description="Compute 3D values from MRI segments.")
-    parser.add_argument("patient_id", type=int)
-    parser.add_argument("roi_idx", type=int)
+    parser.add_argument("patient_id", type=int, help="The ID of the patient.")
+    parser.add_argument(
+        "roi_sequence",
+        type=str,
+        choices=["ROI-T1", "ROI-T2", "ROI-CE-T1"],
+        help="The name of the MRI sequence to process.",
+    )
 
     args = parser.parse_args()
 
     patient_id = args.patient_id
-    roi_idx = args.roi_idx
+    roi_sequence = args.roi_sequence
 
     analyzer = MRIAnalyzer()
-    analyzer.compute_3d_values(patient_id, roi_idx)
+    analyzer.compute_3d_values(patient_id, roi_sequence)
 
 
 if __name__ == "__main__":
