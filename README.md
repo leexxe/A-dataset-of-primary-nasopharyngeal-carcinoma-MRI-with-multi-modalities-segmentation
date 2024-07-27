@@ -40,7 +40,7 @@ python morphological_parameters.py 1 "ROI-T1"
 ```
 ## Citing This Work
 
-If you find this dataset useful in your research, please consider citing our work:
+If you find our scripts or dataset useful in your research, please consider citing our work:
 
 ```bibtex
 @misc{li2024dataset,
