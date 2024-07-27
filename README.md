@@ -27,7 +27,7 @@ python download_dataset.py
 
 ### Computing Morphological Parameters and Post-processing
 
-To compute the morphological parameters and de-identification for a specific patient and ROI sequence, use the following command:
+To compute the morphological parameters for a specific patient and ROI sequence, use the following command:
 
 ```bash
 python morphological_parameters.py <patient_id> <roi_sequence>
@@ -38,9 +38,22 @@ For example:
 ```bash
 python morphological_parameters.py 1 "ROI-T1"
 ```
+### MRI Post-processing
+
+For de-identification and extracting MRI parameters, the following command can be used:
+
+```bash
+python dicom_processor.py <patient_id> <mri_sequence>
+```
+
+For example:
+
+```bash
+python dicom_processor.py 1 "T1WI"
+```
 ## Citing This Work
 
-If you find our scripts or dataset useful in your research, please consider citing our work:
+If you find this dataset useful in your research, please consider citing our work:
 
 ```bibtex
 @misc{li2024dataset,
