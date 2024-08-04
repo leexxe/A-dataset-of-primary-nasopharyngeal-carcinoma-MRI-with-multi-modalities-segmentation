@@ -51,6 +51,15 @@ For example:
 ```bash
 python dicom_processor.py 1 "T1WI"
 ```
+
+### MRI Image Converter
+
+To automate the resizing and conversion of MRI images from DICOM and NIfTI formats to TIFF, run the command
+
+```bash
+python mri_image_converter.py --resolution <desied-resolution>
+```
+
 ## Citing This Work
 
 If you find this dataset useful in your research, please consider citing our work:
