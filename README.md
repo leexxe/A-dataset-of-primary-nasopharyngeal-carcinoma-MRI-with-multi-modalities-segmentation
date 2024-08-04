@@ -57,7 +57,7 @@ python dicom_processor.py 1 "T1WI"
 To automate the resizing and conversion of MRI images from DICOM and NIfTI formats to TIFF, run the command
 
 ```bash
-python mri_image_converter.py --resolution <desied-resolution>
+python mri_image_converter.py --resolution <desired-resolution>
 ```
 
 ## Citing This Work

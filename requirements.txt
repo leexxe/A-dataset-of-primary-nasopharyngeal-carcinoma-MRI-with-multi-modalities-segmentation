@@ -3,3 +3,5 @@ numpy==1.26.3
 vtk==9.3.0
 nibabel==5.2.1
 pydicom==2.4.4
+opencv-python==4.7.0
+tifffile==2023.7.26
