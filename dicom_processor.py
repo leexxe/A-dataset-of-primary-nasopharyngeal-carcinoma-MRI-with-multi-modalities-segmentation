@@ -87,6 +87,12 @@ def extract_dicom_metadata(dicom: pydicom.dataset.FileDataset) -> dict:
     dict
         A dictionary containing extracted metadata.
     """
+
+    tags = [
+        (0x0021, 0x1120),  # [Field of View]
+        (0x0028, 0x0010),  # matrix [Rows]
+        (0x0028, 0x0011),  # matrix [Columns]
+    ]
     metadata = {
         "echo_time": float(dicom.EchoTime) if "EchoTime" in dicom else None,
         "repetition_time": float(dicom.RepetitionTime)
@@ -104,6 +110,10 @@ def extract_dicom_metadata(dicom: pydicom.dataset.FileDataset) -> dict:
         "scanner_device_name": dicom.ManufacturerModelName
         if "ManufacturerModelName" in dicom
         else "Unknown",
+        "flip_angle": float(dicom.FlipAngle) if "FlipAngle" in dicom else None,
+        "field_of_view": dicom[tags[0]].value if tags[0] in dicom else None,
+        "matrix_rows": int(dicom[tags[1]].value) if tags[1] in dicom else None,
+        "matrix_columns": int(dicom[tags[2]].value) if tags[2] in dicom else None,
     }
     return metadata
 
